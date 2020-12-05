@@ -605,6 +605,8 @@ class OpenCVConan(ConanFile):
                     os.path.join('sdk', 'native', 'jni', 'include'))
                 self.cpp_info.libdirs.append(
                     os.path.join('sdk', 'native', 'staticlibs', self._android_arch))
+                if self.options.quirc:
+                    self.cpp_info.libs.append('quirc%s' % suffix)
         else:
             self.cpp_info.includedirs.append(
                 os.path.join('include', 'opencv4'))
