@@ -9,7 +9,7 @@ class OpenCVConan(ConanFile):
     version = "4.3.0"
     license = "BSD-3-Clause"
     homepage = "https://github.com/opencv/opencv"
-    url = "https://github.com/conan-community/conan-opencv"
+    url = "https://github.com/ManuelSchmitzberger/conan-opencv"
     author = "Conan Community"
     topics = ("conan", "opencv", "computer-vision",
               "image-processing", "deep-learning")
@@ -605,6 +605,8 @@ class OpenCVConan(ConanFile):
                     os.path.join('sdk', 'native', 'jni', 'include'))
                 self.cpp_info.libdirs.append(
                     os.path.join('sdk', 'native', 'staticlibs', self._android_arch))
+                if self.options.quirc:
+                    self.cpp_info.libs.append('quirc%s' % suffix)
         else:
             self.cpp_info.includedirs.append(
                 os.path.join('include', 'opencv4'))
