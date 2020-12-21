@@ -9,7 +9,7 @@ class OpenCVConan(ConanFile):
     version = "4.3.0"
     license = "BSD-3-Clause"
     homepage = "https://github.com/opencv/opencv"
-    url = "https://github.com/conan-community/conan-opencv"
+    url = "https://github.com/ManuelSchmitzberger/conan-opencv"
     author = "Conan Community"
     topics = ("conan", "opencv", "computer-vision",
               "image-processing", "deep-learning")
@@ -168,8 +168,10 @@ class OpenCVConan(ConanFile):
             self.requires.add('gst-plugins-base/1.16.0@bincrafters/stable')
         if self.options.openblas:
             self.requires.add('openblas/0.3.7')
-        if self.options.ffmpeg:
-            self.requires.add('ffmpeg/4.2.1@bincrafters/stable')
+        # ms NOTE: disable ffmpeg dependency, because of build errors.
+        # the lib is also not maintained for conan anymore
+        #if self.options.ffmpeg:
+        #    self.requires.add('ffmpeg/4.2.1@bincrafters/stable')
         if self.options.lapack:
             self.requires.add('lapack/3.7.1@conan/stable')
         if self.options.contrib:
