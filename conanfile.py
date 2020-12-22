@@ -168,8 +168,12 @@ class OpenCVConan(ConanFile):
             self.requires.add('gst-plugins-base/1.16.0@bincrafters/stable')
         if self.options.openblas:
             self.requires.add('openblas/0.3.7')
-        if self.options.ffmpeg:
-            self.requires.add('ffmpeg/4.2.1@bincrafters/stable')
+        # ms NOTE: disable ffmpeg dependency, because of build errors.
+        # the lib is also not maintained for conan anymore.
+        # you've to install it on your local machine to be able to build the
+        # opencv with ffmpeg support.
+        #if self.options.ffmpeg:
+        #    self.requires.add('ffmpeg/4.2.1@bincrafters/stable')
         if self.options.lapack:
             self.requires.add('lapack/3.7.1@conan/stable')
         if self.options.contrib:
@@ -292,17 +296,18 @@ class OpenCVConan(ConanFile):
 
         # FFMPEG
         cmake.definitions['WITH_FFMPEG'] = self.options.ffmpeg
+        # ms NOTE: disable ffmpeg dependency, because of build errors.
         if self.options.ffmpeg:
-            cmake.definitions['HAVE_FFMPEG'] = True
-            cmake.definitions['HAVE_FFMPEG_WRAPPER'] = False
+        #    cmake.definitions['HAVE_FFMPEG'] = True
+        #    cmake.definitions['HAVE_FFMPEG_WRAPPER'] = False
             cmake.definitions['OPENCV_FFMPEG_SKIP_BUILD_CHECK'] = True
-            cmake.definitions['OPENCV_FFMPEG_SKIP_DOWNLOAD'] = True
-            cmake.definitions['OPENCV_FFMPEG_USE_FIND_PACKAGE'] = False
-            cmake.definitions['OPENCV_INSTALL_FFMPEG_DOWNLOAD_SCRIPT'] = False
-            for lib in ['avcodec', 'avformat', 'avutil', 'swscale', 'avresample']:
-                cmake.definitions['FFMPEG_lib%s_VERSION' % lib] = self.deps_cpp_info['ffmpeg'].version
-            cmake.definitions['FFMPEG_LIBRARIES'] = ';'.join(self._gather_libs('ffmpeg'))
-            cmake.definitions['FFMPEG_INCLUDE_DIRS'] = ';'.join(self._gather_include_paths('ffmpeg'))
+        #    cmake.definitions['OPENCV_FFMPEG_SKIP_DOWNLOAD'] = True
+        #    cmake.definitions['OPENCV_FFMPEG_USE_FIND_PACKAGE'] = False
+        #    cmake.definitions['OPENCV_INSTALL_FFMPEG_DOWNLOAD_SCRIPT'] = False
+        #    for lib in ['avcodec', 'avformat', 'avutil', 'swscale', 'avresample']:
+        #        cmake.definitions['FFMPEG_lib%s_VERSION' % lib] = self.deps_cpp_info['ffmpeg'].version
+        #    cmake.definitions['FFMPEG_LIBRARIES'] = ';'.join(self._gather_libs('ffmpeg'))
+        #    cmake.definitions['FFMPEG_INCLUDE_DIRS'] = ';'.join(self._gather_include_paths('ffmpeg'))
 
         # GStreamer
         cmake.definitions['WITH_GSTREAMER'] = self.options.gstreamer
